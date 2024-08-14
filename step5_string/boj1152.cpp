@@ -26,7 +26,6 @@ int main(){
             }
         }
     }
-    printf("blankcount: %d\n", blankcount);
 
     if (blankcount == 0) {
         if(length == 0) printf("%d", 0); // ''인 경우
