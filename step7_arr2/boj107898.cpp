@@ -12,13 +12,14 @@ int getlength(char *string){
 
 int main(){
 
-    char *words[5];
-    int lengths[6];
+    char *words[5]; //단어가 5개
+    int lengths[5]; //길이가 5개 (0~4)
 
     for(int i = 0; i<5; i++){
         words[i] = (char *)malloc(sizeof(char)*20);
         scanf("%s", words[i]);
         lengths[i] = getlength(words[i]);
+        
     }
 
     int max_length = lengths[0];
@@ -27,11 +28,11 @@ int main(){
         if(lengths[i] > max_length)
             max_length = lengths[i];
     }
-    printf("max_length: %d\n", max_length);
+    //printf("max_length: %d\n", max_length);
     
     for(int i = 0; i<max_length; i++){
         for(int j = 0; j<5; j++){
-            if (j < lengths[i])
+            if (i < lengths[j])
                 printf("%c", words[j][i]);
         }
     }
@@ -55,10 +56,10 @@ word[4] = fghddfdfddfi      (길이 )
 02 12 22 32 42
 * * 23 33 43
 
+Aa0FfBb1GgCc2HhDd3IiEe4Jj
+Aa0FfBb1GgCc2HhDd3IiEe4Jj
 
-Aa0aP Af98 Bz1Eh Cz2W3 D1gk
-Aa0aP Af985 Bz1Eh Cz2W3 D1gk D6x
-Aa0aP Af98  Bz1Eh Cz2W3 D1gk
-
+Aa0aPAf985Bz1EhCz2W3D1gkD6x
+Aa0aPAf985Bz1EhCz2W3D1gkD6x
 
 */
