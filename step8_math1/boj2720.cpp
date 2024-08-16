@@ -19,8 +19,6 @@ int main(){
         int x;
         scanf("%d", &x);
 
-        printf("받은 값: %d\n", x);
-
         answer[i][0] = x/25;
         x %= 25;
         answer[i][1] = x/10;
