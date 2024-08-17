@@ -18,7 +18,7 @@ int main(){
     int index = 0;
 
     //0 ~ n-1까지 있음
-    int *answer = (int *)malloc(sizeof(int) * n);
+    int *answer = (int *)malloc(sizeof(int) * n+1);
     answer[index++] = 4;
 
     //이전 답 초기화해두기..
