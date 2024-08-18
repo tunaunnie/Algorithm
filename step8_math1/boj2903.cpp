@@ -1,77 +1,102 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int pow(int base, int exp){
+int pow(int base, int exp)
+{
     int result = 1;
-    for(int i = 0; i<exp; i++){
+    for (int i = 0; i < exp; i++)
+    {
         result *= base;
     }
+
     return result;
 }
 
-int main(){
+int main()
+{
 
     int n;
     scanf("%d", &n);
-    n -= 1;
 
-    int index = 0;
+    // 원래 점을 n-1까지 쭉 저장.
+    // 초기 상태, 1번, 2번, ... n-1번 => 전체 n개. null까지 하면 n+1개
+    int *point = (int *)malloc(sizeof(int) * (n + 1));
+    point[0] = 4;
 
-    //0 ~ n-1까지 있음
-    int *answer = (int *)malloc(sizeof(int) * n+1);
-    answer[index++] = 4;
+    // 점 개수 업데이트. (n-1)번째의 점 개수가 몇 개인지 저장됨
+    for (int i = 1; i < n; i++)
+    {
+        // 1. 원래 사각형 개수
+        int temp1 = pow(2, 2 * (i - 1));
+        // 2. 원래 점
+        int temp2 = point[i - 1];
+        // 3. 추가되는 점
+        int temp3 = 5 * temp1;
+        // 4. 겹치는 점 
+        int temp4 = pow(2, (i - 1)) * (pow(2, (i - 1)) - 1) * 2;
 
-    //이전 답 초기화해두기..
-    for(int i = 1; i<n; i++){
-
-        //1)이전 사각형의 개수
-        int temp1 = pow(2, 2*i);
-        //2)추가되는 점의 개수
-        int temp2 = 5 * temp1;
-        //3)겹치는 점
-        int temp3 = pow(2, i) * (pow(2, i) - 1) *2;
-        //4)총추가
-        int temp4 = temp2-temp3;
-        //5) 답 계산하고 저장
-        answer[i] = answer[i-1]+temp4;
-
-        index = i++;
+        // 5. 원래 점 + 점 추가 - 겹치는 점을 지금 점 개수로 저장
+        point[i] = temp2 + temp3 - temp4;
     }
 
-    for(int i = 0; i<n; i++){
-        printf("answer[%d]: %d \n", i, answer[i]);
-    }
+    // 1. 원래 사각형 개수
+    int temp1 = pow(2, 2 * (n - 1));
+    // 2. 원래 점
+    int temp2 = point[n - 1];
+    // 3. 추가되는 점
+    int temp3 = 5 * temp1;
+    // 4. 겹치는 점 : (2^(n-1))*((2^(n-1))-1)*2
+    int temp4 = pow(2, (n - 1)) * (pow(2, (n - 1)) - 1) * 2;
 
-    //1)이전 사각형의 개수
-    int temp1 = pow(2, 2*n);
-    printf("temp1: %d ", temp1);
- 
-    //2)추가되는 점의 개수
-    int temp2 = 5 * temp1;
-    printf("temp2: %d ", temp2);
- 
-    //3)겹치는 점
-    int temp3 = pow(2, n) * (pow(2, n) - 1) *2;
-    printf("temp3: %d ", temp3);
- 
-    //4)총추가
-    int temp4 = temp2-temp3;
-    printf("temp4: %d ", temp4);
- 
-    //5) 답 계산하고 저장
-    int result = answer[index-1]+temp4;
-    printf("\n최종 답: %d + %d = %d ", answer[index-1], temp4, result);
-
-    //printf("%d", answer[index]);
+    // 5. 원래 점 + 점 추가 - 겹치는 점
+    int result = temp2 + temp3 - temp4;
+    printf("%d", result);
 
     return 0;
 }
 
+/*
+
+0 -> 1 일 때 (n=1)
+
+원래 사각형 개수 : 1개   2^2(n-1)
+원래 점: 4개
+점 추가: 5개
+겹치는 점: 0개
+
+원래 점 + 점 추가 - 겹치는 점 = 9개
+
+지금 점(원래 점) 저장
+
+========================
+1 -> 2 일 때 (n=2)
+
+원래 사각형 개수 : 4개  2^2(n-1)
+원래 점: 9개
+점 추가: 20개          5 * (원래 사각형 개수)
+겹치는 점: 4개         (2^(n-1))*((2^(n-1))-1)*2
+
+원래 점 + 점 추가 - 겹치는 점 = 25개
+=========================
+
+즉, n 들어오면 제일 먼저
+'0부터 n-1까지' 원래 점 쭉 저장
+
+
+*/
 
 /*
 
-** 이전 사각형의 개수: 2^2n
-** 추가되는 점의 개수: 5 * (이전 사각형의 개수)
+지금 사각형의 개수 배열 (2^2n)
+1, 4, 16, 64 ...
+
+원래 점(답)
+4, 9, 25, ...
+
+
+
+** 이전 사각형의 개수: 2^2(n-1)
+** 추가되는 점의 개수: 5 * (이전 사각형의 개수: 2^2n)
 ** 겹치는 점 : (2^n)*((2^n)-1)*2
 ** 총추가: 추가되는 점의 개수 - 겹치는 점
 
@@ -86,7 +111,13 @@ int main(){
 3) 총 추가: 5-0 = 5개
 4) 답: 원래점+총추가 = 9
 
-[1단계->2단계]  (n==1)
+[n==1번일 때]
+추가되는 점 : 5개 (5*1)
+겹치는 점: 0개
+총 추가: 5-0 = 5개
+답: 원래 점(4) + 총 추가(5) = 9개
+
+[1단계->2단계]  (n==2)
 추가되는 점: 5*4개 (5*이전 사각형 개수)
 겹치는 점: 4개 (내부의 변 개수만큼 겹침..)
 총 추가: 20-4 = 16개
