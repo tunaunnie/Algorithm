@@ -2,21 +2,25 @@
 
 int main(){
 
-    long long n;
-    scanf("%lld", &n);
+    long long input;
+    scanf("%lld", &input);
 
-    int temp = 1;
+    if(input == 1) {
+        printf("1");
+        return 0;
+    }
 
-
+    long long num = 2;
+    
+    for (int i=1; ; i++){
+        if (input < num+6*i){
+            printf("%d", i+1);
+            break;
+        }
+        else{
+            num+= 6*i;
+        }
+    }
 
     return 0;
 }
-
-/*
-
-0: 1
-1: 2~7 (6개)
-2: 8~19 (12개)
-3: 20~37 (18개)
-
-*/
