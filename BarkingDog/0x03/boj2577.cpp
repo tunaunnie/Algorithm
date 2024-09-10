@@ -20,7 +20,5 @@ int main(){
         printf("%d\n", count[i]);
     }
 
-
-
     return 0;
 }
