@@ -9,53 +9,42 @@ int main(){
     int n;
     scanf("%d", &n);
 
-
-    int *stair_scores = (int *)malloc(sizeof(int) * n);
+    int *value = (int *)malloc(sizeof(int) * n);
     for(int i = 0; i<n; i++){
-        stair_scores[i] = 0;
+        scanf("%d", &value[i]);
     }
+
+    int **DP = (int **)malloc(sizeof(int *) * n);
     for(int i = 0; i<n; i++){
-        scanf("%d", &stair_scores[i]);
-    }
-
-    int **D = (int **)malloc(sizeof(int *)*n);
-    for(int i = 0; i<n; i++){
-        D[i] = (int *)malloc(sizeof(int) * 2);
-        D[i][0] = 0;
-        D[i][1] = 0; 
-    }
-
-    D[0][0] = stair_scores[0];
-    D[0][1] = 0;
-    //2층을 한번만에 올라간 경우
-    D[1][0] = stair_scores[1];
-    //2층을 두번만에 올라간 경우
-    D[1][1] = stair_scores[0] + stair_scores[1];
-
-    
-    if(n == 1){
-        printf("%d", stair_scores[0]);
-        return 0;
-    }
-
-    if(n == 2){
-        printf("%d", max(D[1][0], D[1][1]));
-        return 0;
-    }
-
-    if(n > 2){
-        for(int i = 2; i<n; i++){
-            //1번만에 올라간 경우 : 2칸 전을 밟았다는 것
-            D[i][0] = max(D[i-2][0], D[i-2][1]) + stair_scores[i];
-            //2번만에 올라간 경우 : 1칸 전에 1번만에 올라온 경우였다는 것
-            D[i][1] = D[i-1][0] + stair_scores[i];
+        DP[i] = (int *)malloc(sizeof(int) * 2);
+        for(int j = 0; j<2; j++){
+            DP[i][j] = 0;
         }
     }
 
-    int max_score = max(D[n-1][0], D[n-1][1]);
+    //DP의 초기값 설정
+    DP[0][0] = 0;
+    DP[0][1] = 0;
+    
+    DP[1][0] = 0;
+    DP[1][1] = value[0]; //1층의 값
+    DP[2][0] = value[1]; //2층의 값
+    DP[2][1] = value[0] + value[1]; //1층의 값 + 2층의 값
 
-    printf("%d", max_score);
+    //3층부터 고려
+    for(int i = 3; i<n; i++){
+
+        //지금 층에 +2 해서 올라온 경우
+        DP[i][0] = max(DP[i-2][0], DP[i-2][1]) + value[i-1];
+        
+        //지금 층에 +1 해서 올라온 경우
+        DP[i][1] = DP[i-1][0] + value[i-1];
+
+    }
+
+    int result = max(DP[n-1][0], DP[n-1][1]);
+
+    printf("%d", result);
 
     return 0;
-
 }
