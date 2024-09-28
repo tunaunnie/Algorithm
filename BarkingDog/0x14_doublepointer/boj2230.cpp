@@ -44,6 +44,7 @@ int main(){
         if(diff >= m){
             min2 = min(min2, diff);
             i++;
+            
             if(i > j){
                 j = i;
             }
