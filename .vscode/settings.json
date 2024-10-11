@@ -51,6 +51,7 @@
         "xutility": "cpp",
         "vector": "cpp",
         "ranges": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "queue": "cpp"
     }
 }
