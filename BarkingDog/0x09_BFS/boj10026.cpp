@@ -130,8 +130,5 @@ int main(){
     printf("%d %d", total_count, total_count2);
 
 
-    
-
-
     return 0;
 }
