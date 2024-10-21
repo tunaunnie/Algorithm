@@ -79,8 +79,8 @@ int main(){
                 if( 0<= new_x && 0<= new_y && 0<=new_z && new_x<c && new_y<r && new_z<l){
 
                     if(board[new_z][new_y][new_x] == 'E'){
+                        printf("Escaped in %d minute(s).\n", days+1);
                         flag = 1;
-                        printf("Escaped in %d minute(s).", days+1);
                         break;
                     }
 
@@ -92,11 +92,12 @@ int main(){
                 }
 
             }
-            if(flag ==1 ) break;
+            
+            if(flag == 1 ) break;
 
         }
 
-        if (flag != 1){
+        if (flag == 0){
             printf("Trapped!");   
         }
 
